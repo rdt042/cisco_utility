@@ -152,7 +152,7 @@ def gen_output():
                 # write output to file
                 wr_to_file(f, device, output)
                 
-                # Change color to yellow when on the last iteration
+                # Change colour to green when on the last iteration
                 if counter == len(device_list) - 1:
                     pbar.colour = 'green'
                 
