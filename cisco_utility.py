@@ -7,10 +7,11 @@ from datetime import datetime
 from tqdm import tqdm
 
 # This script is used to run show commands or updates against IOS-XE and ASA devices
-# It also has a file comparer function where it will show lines missing from a template
+# It also has a file comparer function where it will show lines missing from a template compared to a running config.
 # By rdt042web@gmail.com
 
-# Vesion 1   - Initial release
+# Version 1   - Initial release
+# Version 2   - Added Nexus choice
 
 # For colorama!
 init()
@@ -271,13 +272,18 @@ if __name__ == '__main__':
     check1 = input_tester('>> : ','[^YyNn]',True)
 
     # Check model selection
-    print('\n' + SB + Fore.CYAN + 'Are the devices you will run this script on ASAs (a) or routers/switches (r) : ' + SR)
-    model = input_tester('>> : ','[^aArR]',False)
+    print('\n' + SB + Fore.CYAN + 'Are the devices you will run this script on:'  + SR)
+    print('    ASAs (a):')
+    print('    Routers/switches (r) : ')
+    print('    Nexus switches (n):')
+    model = input_tester('>> : ','[^aArRnN]',False)
     if model == 'a': 
         model = 'cisco_asa'
-    else:
+    elif model == 'r':
         model = 'cisco_ios'
-
+    else:
+        model = 'cisco_nxos'
+        
     # Check for comparer choice
     print('\n' + SB + Fore.CYAN + 'Do you wish to use the file comparer function (f) or run show or send commands to the list of devices (s) :' + SR)
     check2 = input_tester('>> : ','[^fFsS]',False)
