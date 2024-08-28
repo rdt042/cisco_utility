@@ -12,6 +12,8 @@ from tqdm import tqdm
 
 # Version 1   - Initial release
 # Version 2   - Added Nexus choice
+# Version 3   - Updated tqdm last iteration description
+# Version 4   - Added choice for name of output file, Other minor fixes
 
 # For colorama!
 init()
@@ -152,7 +154,7 @@ def gen_output():
                 # write output to file
                 wr_to_file(f, device, output)
                 
-                # Change colour to green when on the last iteration
+                # Change color to yellow when on the last iteration
                 if counter == len(device_list) - 1:
                     pbar.colour = 'green'
                 
@@ -333,7 +335,7 @@ if __name__ == '__main__':
     print('You do NOT need to include "conf t".')
     if op_mode == 'CONFIG':
         print('\n' + SB + Fore.YELLOW + 'config mode' + SR + ': confirm config.txt in the same directory the script is run from with the commands to send. (y/n)')
-        check4 = input_tester('>> : ','[^YyNn]',False)
+        check4 = input_tester('>> : ','[^YyNn]',True)
         commands = read_file(filetxt)
     else:
         print('\n' + SB + Fore.GREEN + 'show mode' + SR + ': enter a single command or seperate multiple commands with a comma then return.')
@@ -353,8 +355,19 @@ if __name__ == '__main__':
     count_csv()
 
     print(f'\nLoaded {count} devices from {csvFileName} to update the config on.')
-    print('\n' + SB + Fore.CYAN + 'Output will be written to "output.txt".' + SR)
-    check6 = input_tester('\nProceed? (y/n) : ', '[^YyNn]',True)
+
+    # Choice for output file name 
+    print('\n' + SB + Fore.CYAN + 'Name output file (n) or use default "output.txt" (d).' + SR)
+    check6 = input_tester('>> : ','[^nNdD]',False)
+    if check6 == 'n':
+        outputFile = input('Name of output file >> : ')
+        outputFile = outputFile + '.txt'
+        check7 = input_tester(f'Confirm output file will be name {outputFile} (y/n) : ', '[^YyNn]',True)
+    else:
+        outputFile = "output.txt"
+
+    # Proceed?    
+    check8 = input_tester('\nProceed? (y/n) : ', '[^YyNn]',True)
     print('\nExecuting script. Standby....')
     print()
 
